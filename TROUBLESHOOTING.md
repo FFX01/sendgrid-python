@@ -32,25 +32,28 @@ In the first case SENDGRID_API_KEY is in reference to the name of the environmen
 <a name="error"></a>
 ## Error Messages
 
+HTTP exceptions are defined in the [`python_http_client` package](https://github.com/sendgrid/python-http-client/blob/master/python_http_client/exceptions.py).
+
 To read the error message returned by SendGrid's API in Python 2.X:
 
 ```python
-import urllib2
+from python_http_client.exceptions import HTTPError
 
 try:
   response = sg.client.mail.send.post(request_body=mail.get())
-except urllib2.HTTPError as e:
-    print e.read()
+except HTTPError as e:
+    print e.to_dict
 ```
 
 To read the error message returned by SendGrid's API in Python 3.X:
 
 ```python
-import urllib
+from python_http_client.exceptions import HTTPError
+
 try:
   response = sg.client.mail.send.post(request_body=mail.get())
-except urllib.error.HTTPError as e:
-    print e.read()
+except HTTPError as e:
+    print(e.to_dict)
 ```
 
 <a name="migrating"></a>
@@ -112,3 +115,6 @@ You can do this right before you call `response = sg.client.mail.send.post(reque
 # Error Handling
 
 Please review [our use_cases](https://github.com/sendgrid/sendgrid-python/use_cases/README.md) for examples of error handling.
+
+
+The error messages section was out of date. In addition, it had incorrect `print` syntax for the Python 3.x example.
